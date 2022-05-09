@@ -1,89 +1,117 @@
 <template>
   <div class="container">
-    <TeamsTable class="table-wrapper" :teamData="teamsData"/>
-    <Results class="results-wrapper" :matchData="parseTeamData()" @prediction="onPrediction"/>
+    <TeamsTable
+      class="table-wrapper"
+      :teamsData="teamsData"
+      :predictionData="tablePrediction"
+    />
+    <Results
+      class="results-wrapper"
+      :matchData="parseTeamData()"
+      @prediction="onPrediction"
+    />
   </div>
 </template>
 
 <script>
-import TeamsTable from './table.vue'
-import Results from './results.vue'
-import axios from 'axios'
-import {nanoid} from 'nanoid'
+import TeamsTable from "./table.vue";
+import Results from "./results.vue";
+import axios from "axios";
+import { nanoid } from "nanoid";
 export default {
-  components: { 
+  components: {
     TeamsTable,
-    Results
-   },
-  name: 'mainContainer',
-  data: () =>({
-    matchData:[],
+    Results,
+  },
+  name: "mainContainer",
+  data: () => ({
+    matchData: [],
     teamsData: [],
     parsedTeams: [],
     parsedMatches: [],
-    matchPrediction: []
-
+    mapPredictions: new Map(),
+    tablePrediction: [],
   }),
   mounted() {
     this.getMatchData();
     this.getTeamData();
   },
-  computed:{
-   
-  },
+  computed: {},
   methods: {
-    async getMatchData(){
-      let response = await axios.get('https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/fechas.json')
-            const data = Array.from(response.data)
-            let grupoC = []
-            for(let item of data){
-              if(item.grupo === 'C'){
-                item = {...item, matchId:nanoid()}
-                grupoC.push(item)
-              }
-            }
-            console.log('grupoc',grupoC)
-            this.matchData = grupoC;
-    },
-    async getTeamData(){
-      let response = await axios.get('https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/diccEquipos.json')
-      const data = Array.from(response.data)
-      for( let item of data){
-        if(item.grupo.includes('C')){
-          this.teamsData.push(item)
+    async getMatchData() {
+      // aca se obtienen los datos de los partidos y se filtran solo los del grupo "c"
+      let response = await axios.get(
+        "https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/fechas.json"
+      );
+      const data = Array.from(response.data);
+      let grupoC = [];
+      for (let item of data) {
+        if (item.grupo === "C") {
+          item = { ...item, matchId: nanoid() }; //aca se le asigna una id a cada partido
+          grupoC.push(item);
         }
       }
-      console.log('teamsData', this.teamsData)
-      this.parseTeamData()
+      console.log("grupoc", grupoC);
+      this.matchData = grupoC;
     },
-    parseTeamData(){
-      let parsedArr = []
-      let equipoA = {}
-      let equipoB = {}
-      
-      for( let match of this.matchData){
-        this.teamsData.forEach(element => {
-          if(match.equipoA.includes(element.grupo)){
-           equipoA = {equipo:element.nombre, id: element.nombreCorto, prediccion: ''}
-          } else if (match.equipoB.includes(element.grupo)){
-            equipoB = {equipo:element.nombre, id: element.nombreCorto, prediccion: ''}
+    async getTeamData() {
+      //aca se obtienen los equipos y se filtran solo los del grupo "c"
+      let response = await axios.get(
+        "https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/diccEquipos.json"
+      );
+      const data = Array.from(response.data);
+      for (let item of data) {
+        if (item.grupo.includes("C")) {
+          this.teamsData.push(item);
+        }
+      }
+      console.log("teamsData", this.teamsData);
+      this.parseTeamData();
+    },
+    parseTeamData() {
+      let parsedArr = [];
+      let equipoA = {};
+      let equipoB = {};
+
+      for (let match of this.matchData) {
+        this.teamsData.forEach((element) => {
+          //aca se arman los objetos simplificados de cada equipo para enviar a las cards y a la tabla
+          if (match.equipoA.includes(element.grupo)) {
+            equipoA = {
+              equipo: element.nombre,
+              id: element.nombreCorto,
+              prediccion: "",
+            };
+          } else if (match.equipoB.includes(element.grupo)) {
+            equipoB = {
+              equipo: element.nombre,
+              id: element.nombreCorto,
+              prediccion: "",
+            };
           }
         });
-        parsedArr.push({matchId:match.matchId, fecha: match.fecha, equipoA, equipoB})
+        parsedArr.push({
+          // aca se arma el objeto simplificado de cada partido y se le agregan los datos de cada equipo participante en el partido
+          matchId: match.matchId,
+          fecha: match.fecha,
+          equipoA,
+          equipoB,
+        });
       }
-      console.log('parsedArr',parsedArr)
-      return parsedArr
-      
+      console.log("parsedArr", parsedArr);
+      return parsedArr;
     },
-     onPrediction(payload){
-      console.log(payload)
-    }
+    onPrediction(payload) {
+      this.mapPredictions.set(payload.predictionId, payload);
+      this.tablePrediction = Array.from(this.mapPredictions.values());
+    },
   },
-}
-
+};
 </script>
 <style>
-@import url(https://especialess3.lanacion.com.ar/fonts/SuecaSlab-Heavy.woff);
+* {
+  font-family: "SuecaSlab";
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -98,19 +126,19 @@ li {
 a {
   color: #42b983;
 }
-.is-flex{
+.is-flex {
   display: inline-flex;
 }
-.container{
+.container {
   display: flex;
   margin: auto;
   width: 95%;
   justify-content: space-evenly;
 }
-.table-wrapper{
+.table-wrapper {
   width: 30%;
 }
-.results-wrapper{
+.results-wrapper {
   width: 70%;
 }
 </style>
