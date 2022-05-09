@@ -23,5 +23,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  --primary: #ed706a;
+  --primaryLight: #ef8b88;
+  --primaryDark: #e05149;
+  --secondaryLight: #e6e5e5;
+  --secondary: #908f90;
+  --secondaryDark: #404140;
 }
 </style>

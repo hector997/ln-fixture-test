@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="cards-heading" v-for="item in getDates" :key="item">
-      <p>{{ dateFormat(item) }}</p>
+      <p class="date-display">{{ dateFormat(item) }}</p>
       <div class="cards">
+        <div class="top-border"></div>
         <div style="margin: 0" v-for="match in matchData" :key="match.matchId">
           <div class="match-card" v-if="match.fecha === item">
             <div class="team-display">
@@ -79,21 +80,49 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.cards {
-  border-style: solid none none solid;
-  .match-card {
-    border-style: solid;
-    margin: 10px;
-    height: 220px;
-    width: 300px;
-    .team-display {
-      margin-left: 10px;
-      display: flex;
-      justify-content: space-between;
-      .team-input {
-        margin: auto 10px;
-        width: 30px;
-        height: 20px;
+.container {
+  padding: 15px;
+  .cards-heading {
+    .date-display {
+      color: var(--secondary);
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .top-border {
+      border-top: solid;
+      border-color: var(--secondaryLight);
+    }
+    .cards {
+      color: var(--secondary);
+      border-color: var(--secondaryLight);
+      border-style: none none none solid;
+      padding-left: 10px;
+      .match-card {
+        margin: 15px;
+        height: 220px;
+        width: 300px;
+        background: var(--primary);
+        border-radius: 8px;
+        .team-display {
+          margin-left: 10px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 18px;
+          font-weight: 800;
+          color: #fafafa;
+          .team-input {
+            margin: auto 10px;
+            width: 35px;
+            height: 25px;
+            border: none;
+            border-radius: 5px;
+            font-family: "SuecaSlab";
+            font-weight: 800;
+            font-size: 18px;
+            color: #fafafa;
+            background: var(--primaryDark);
+          }
+        }
       }
     }
   }
