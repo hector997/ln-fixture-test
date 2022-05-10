@@ -27,8 +27,6 @@ export default {
   data: () => ({
     matchData: [],
     teamsData: [],
-    parsedTeams: [],
-    parsedMatches: [],
     mapPredictions: new Map(),
     tablePrediction: [],
   }),
@@ -36,22 +34,21 @@ export default {
     this.getMatchData();
     this.getTeamData();
   },
-  computed: {},
   methods: {
     async getMatchData() {
       // aca se obtienen los datos de los partidos y se filtran solo los del grupo "c"
+      let grupoC = [];
+
       let response = await axios.get(
         "https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/fechas.json"
       );
       const data = Array.from(response.data);
-      let grupoC = [];
-      for (let item of data) {
+      data.forEach((item) => {
         if (item.grupo === "C") {
           item = { ...item, matchId: nanoid() }; //aca se le asigna una id a cada partido
           grupoC.push(item);
         }
-      }
-      console.log("grupoc", grupoC);
+      });
       this.matchData = grupoC;
     },
     async getTeamData() {
@@ -60,20 +57,18 @@ export default {
         "https://especialess3.lanacion.com.ar/22/03/mundial2022-fixture/data/diccEquipos.json"
       );
       const data = Array.from(response.data);
-      for (let item of data) {
+      data.forEach((item) => {
         if (item.grupo.includes("C")) {
           this.teamsData.push(item);
         }
-      }
-      console.log("teamsData", this.teamsData);
+      });
       this.parseTeamData();
     },
     parseTeamData() {
       let parsedArr = [];
       let equipoA = {};
       let equipoB = {};
-
-      for (let match of this.matchData) {
+      this.matchData.forEach((match) => {
         this.teamsData.forEach((element) => {
           //aca se arman los objetos simplificados de cada equipo para enviar a las cards y a la tabla
           if (match.equipoA.includes(element.grupo)) {
@@ -97,11 +92,11 @@ export default {
           equipoA,
           equipoB,
         });
-      }
-      console.log("parsedArr", parsedArr);
+      });
       return parsedArr;
     },
     onPrediction(payload) {
+      // este metodo va recibiendo los inputs emitidos por las cards y arma un map con cada id de la prediccion
       this.mapPredictions.set(payload.predictionId, payload);
       this.tablePrediction = Array.from(this.mapPredictions.values());
     },

@@ -52,7 +52,6 @@ export default {
   props: {
     matchData: Array,
   },
-  data: () => ({}),
   computed: {
     getDates() {
       let datesArr = [];
@@ -108,6 +107,7 @@ export default {
       }
       .team-display {
         font-size: 14px !important;
+        width: 50%;
       }
     }
   }
@@ -116,6 +116,7 @@ export default {
   padding: 15px;
   .cards-heading {
     .date-display {
+      margin-top: 20px;
       color: var(--secondary);
       font-weight: 800;
       font-size: 14px;
@@ -137,7 +138,7 @@ export default {
         height: 220px;
         width: 300px;
         background: var(--primary);
-        border-radius: 8px;
+        border-radius: 5px;
         .team-separator {
           border-top: solid;
           border-color: #fafafa;

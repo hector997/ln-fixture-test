@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1 class="group">GRUPO</h1>
+      <p class="group">GRUPO</p>
       <div class="is-flex title-container">
         <h1 class="group-name">C</h1>
         <div class="desc">
@@ -48,8 +48,6 @@ export default {
     predictionData: Array,
     teamsData: Array,
   },
-  data: () => ({}),
-  watch: {},
   computed: {
     getFinalScore() {
       //esta computed devuelve un map que contiene a los dos equipos que se enfrentaron en dado partido segun su id
