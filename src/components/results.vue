@@ -72,7 +72,7 @@ export default {
       let currentPrediction = {
         matchId: matchId,
         teamId: teamId,
-        prediction: parseInt(inputData),
+        prediction: inputData ? parseInt(inputData) : 0,
         predictionId: teamId + "-" + matchId,
       };
       this.$emit("prediction", currentPrediction);
