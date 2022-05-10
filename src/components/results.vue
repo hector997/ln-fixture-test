@@ -10,6 +10,7 @@
               <p>{{ match.equipoA.equipo }}</p>
               <input
                 class="team-input"
+                maxlength="2"
                 type="text"
                 @input="
                   handleInput(
@@ -26,6 +27,7 @@
               <input
                 class="team-input"
                 type="text"
+                maxlength="2"
                 @input="
                   handleInput(
                     match.matchId,
@@ -85,13 +87,16 @@ export default {
 @media screen and (max-width: 1500px) {
   .container {
     display: block;
-    width: 450px;
+    width: 100%;
+    padding: 10px 10px 0 0 !important;
   }
   .date-display {
-    margin: 5px 0 !important;
+    margin: 10px 0 0 0 !important;
   }
   .cards {
     justify-content: center;
+    border: none !important;
+
     .match-card {
       max-height: 50px;
       width: 100% !important;
@@ -113,9 +118,10 @@ export default {
     .date-display {
       color: var(--secondary);
       font-weight: 800;
-      font-size: 16px;
+      font-size: 14px;
       text-align: left;
-      padding-left: 5px;
+      padding-left: 30px;
+      text-transform: uppercase;
     }
     .top-border {
       border-top: solid;

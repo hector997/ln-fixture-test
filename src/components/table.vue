@@ -5,7 +5,7 @@
       <div class="is-flex title-container">
         <h1 class="group-name">C</h1>
         <div class="desc">
-          <p>simula los resultados que faltan y mira como queda la tabla</p>
+          <p>simulá los resultados que faltan y mirá cómo quedaría la tabla</p>
           <i class="icon fa-solid fa-caret-down"></i>
         </div>
       </div>
