@@ -43,17 +43,16 @@
 
 <script>
 export default {
-  name: "table",
+  name: "resultsTable",
   props: {
     predictionData: Array,
     teamsData: Array,
   },
   computed: {
     getFinalScore() {
-      //esta computed devuelve un map que contiene a los dos equipos que se enfrentaron en dado partido segun su id
+      // devuelve un map que contiene a los dos equipos que se enfrentaron en dado partido segun su id
       let matches = new Map();
       this.predictionData.forEach((prediction) => {
-        console.log("pred", prediction);
         if (matches.has(prediction.matchId)) {
           matches.set(prediction.matchId, [
             ...matches.get(prediction.matchId),
@@ -63,11 +62,10 @@ export default {
           matches.set(prediction.matchId, [prediction]);
         }
       });
-      console.log("matches", matches);
       return Array.from(matches.values());
     },
     matchesArr() {
-      // esta computed devuelve un array de objetos con todos los datos parseados para ser usados por la tabla
+      // retorna un array de objetos con todos los datos parseados para ser usados por la tabla
       let arr = [];
       let winner = "";
       this.teamsData.forEach((element) => {
@@ -102,8 +100,7 @@ export default {
           return a.matchWinner - b.matchWinner;
         }
       });
-      console.log("sorted", sortedArr);
-      return arr;
+      return sortedArr;
     },
   },
   methods: {
@@ -116,7 +113,7 @@ export default {
       } else return "empate";
     },
     teamScore(nombreCorto) {
-      //este metodo  compara los goles de cada partido y tambien devuelve quien fue el ganador
+      //compara los goles de cada partido y tambien devuelve quien fue el ganador
       let score = 0;
       let wonMatches = 0;
       let lostMatches = 0;
@@ -157,12 +154,12 @@ export default {
         }
       });
       return {
-        score: score,
-        wonMatches: wonMatches,
-        lostMatches: lostMatches,
-        drawMatches: drawMatches,
-        playedMatches: playedMatches,
-        matchWinner: winner,
+        score,
+        wonMatches,
+        lostMatches,
+        drawMatches,
+        playedMatches,
+        winner,
       };
     },
     getGoalData(nombreCorto) {
@@ -188,9 +185,9 @@ export default {
         goalDiff = goalsMade - goalsRecieved;
       });
       return {
-        goalsMade: goalsMade,
-        goalsRecieved: goalsRecieved,
-        goalDiff: goalDiff,
+        goalsMade,
+        goalsRecieved,
+        goalDiff,
       };
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TeamsTable
+    <ResultsTable
       class="table-wrapper"
       :teamsData="teamsData"
       :predictionData="tablePrediction"
@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import TeamsTable from "./table.vue";
+import ResultsTable from "./resultsTable.vue";
 import Results from "./results.vue";
 import axios from "axios";
 import { nanoid } from "nanoid";
 export default {
   components: {
-    TeamsTable,
+    ResultsTable,
     Results,
   },
   name: "mainContainer",
@@ -75,18 +75,18 @@ export default {
             equipoA = {
               equipo: element.nombre,
               id: element.nombreCorto,
-              prediccion: "",
+              prediccion: null,
             };
           } else if (match.equipoB.includes(element.grupo)) {
             equipoB = {
               equipo: element.nombre,
               id: element.nombreCorto,
-              prediccion: "",
+              prediccion: null,
             };
           }
         });
         parsedArr.push({
-          // aca se arma el objeto simplificado de cada partido y se le agregan los datos de cada equipo participante en el partido
+          // arma el objeto simplificado de cada partido y se le agregan los datos de cada equipo participante en el partido
           matchId: match.matchId,
           fecha: match.fecha,
           equipoA,
