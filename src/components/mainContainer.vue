@@ -109,6 +109,14 @@ export default {
 };
 </script>
 <style>
+@media only screen and (max-width: 1500px) {
+  .container {
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 600px;
+  }
+}
+
 * {
   font-family: "SuecaSlab";
 }
@@ -137,6 +145,7 @@ a {
 }
 .table-wrapper {
   width: 30%;
+  min-width: 460px;
 }
 .results-wrapper {
   width: 70%;

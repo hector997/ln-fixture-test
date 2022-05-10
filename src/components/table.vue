@@ -199,6 +199,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@media only screen and (max-width: 1500px) {
+  .container {
+    zoom: 0.7;
+  }
+}
 .is-flex {
   display: inline-flex;
 }
