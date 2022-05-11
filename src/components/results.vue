@@ -11,7 +11,9 @@
               <input
                 class="team-input"
                 maxlength="1"
-                type="numeric"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                type="number"
                 @input="
                   handleInput(
                     match.matchId,
@@ -39,8 +41,10 @@
               <p>{{ match.equipoB.equipo }}</p>
               <input
                 class="team-input"
-                type="numeric"
                 maxlength="1"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                type="number"
                 @input="
                   handleInput(
                     match.matchId,
@@ -116,8 +120,6 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @media screen and (max-width: 1500px) {
   .container {
