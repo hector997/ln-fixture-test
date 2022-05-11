@@ -13,7 +13,6 @@
                 maxlength="1"
                 inputmode="numeric"
                 pattern="[0-9]*"
-                type="number"
                 @input="
                   handleInput(
                     match.matchId,
@@ -44,7 +43,6 @@
                 maxlength="1"
                 inputmode="numeric"
                 pattern="[0-9]*"
-                type="number"
                 @input="
                   handleInput(
                     match.matchId,
