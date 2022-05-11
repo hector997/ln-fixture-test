@@ -10,8 +10,8 @@
               <p>{{ match.equipoA.equipo }}</p>
               <input
                 class="team-input"
-                maxlength="2"
-                type="text"
+                maxlength="1"
+                type="numeric"
                 @input="
                   handleInput(
                     match.matchId,
@@ -21,13 +21,24 @@
                 "
               />
             </div>
+            <div
+              class="error-msg"
+              v-if="
+                errorId != null && errorId === match.matchId + match.equipoA.id
+              "
+            >
+              <div>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p>Entrada invalida</p>
+              </div>
+            </div>
             <div class="team-separator"></div>
             <div class="team-display">
               <p>{{ match.equipoB.equipo }}</p>
               <input
                 class="team-input"
-                type="text"
-                maxlength="2"
+                type="numeric"
+                maxlength="1"
                 @input="
                   handleInput(
                     match.matchId,
@@ -36,6 +47,18 @@
                   )
                 "
               />
+            </div>
+            <div
+              v-if="
+                errorId != null && errorId === match.matchId + match.equipoB.id
+              "
+              class="error-msg"
+            >
+              <!-- :id="'error-' + match.matchId + '-' + match.equipoB.id" -->
+              <div>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p>Entrada invalida</p>
+              </div>
             </div>
             <div class="team-separator"></div>
           </div>
@@ -52,6 +75,9 @@ export default {
   props: {
     matchData: Array,
   },
+  data: () => ({
+    errorId: null,
+  }),
   computed: {
     getDates() {
       let datesArr = [];
@@ -68,6 +94,15 @@ export default {
       return moment(String(date)).format("dddd LL");
     },
     handleInput(matchId, teamId, inputData) {
+      // chequea si el input es valido
+      if (
+        inputData != "" &&
+        (!(parseInt(inputData) >= 0) || isNaN(parseInt(inputData)))
+      ) {
+        this.errorId = matchId + teamId;
+        return;
+      }
+      this.errorId = null;
       //este metodo se llama cuando se hace un input en la card y arma el objeto a emitirle al padre
       let currentPrediction = {
         matchId: matchId,
@@ -88,6 +123,7 @@ export default {
     display: block;
     width: 100%;
     padding: 10px 10px 0 0 !important;
+    max-width: 350px;
   }
   .date-display {
     margin: 10px 0 0 0 !important;
@@ -99,15 +135,27 @@ export default {
     .match-card {
       max-height: 50px;
       width: 100% !important;
+
       display: flex;
       justify-content: space-between;
       margin: 2px !important;
       .team-separator {
         display: none;
       }
+      .error-msg {
+        i {
+          margin: 15px 0;
+        }
+        p {
+          display: none;
+        }
+      }
       .team-display {
         font-size: 14px !important;
         width: 50%;
+        .team-input {
+          width: 25px !important;
+        }
       }
     }
   }
@@ -145,6 +193,23 @@ export default {
           border-width: 0.5px;
           width: 90%;
           margin: auto;
+        }
+        .error-msg {
+          color: #fafafa;
+          margin: 0;
+          padding: 0;
+          div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            i {
+              padding: 0 10px;
+            }
+            p {
+              margin: 5px 0;
+              font-weight: 600;
+            }
+          }
         }
         .team-display {
           margin-left: 15px;
