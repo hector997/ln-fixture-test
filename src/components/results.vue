@@ -27,6 +27,8 @@
                 errorId != null && errorId === match.matchId + match.equipoA.id
               "
             >
+              <!-- este error se muestra cuando se ingresa una letra o un valor menor a cero.
+                  En la version mobile solo se muestra el signo de exclamacion para no romper las "cards" -->
               <div>
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p>Entrada invalida</p>
@@ -54,7 +56,6 @@
               "
               class="error-msg"
             >
-              <!-- :id="'error-' + match.matchId + '-' + match.equipoB.id" -->
               <div>
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p>Entrada invalida</p>
@@ -227,6 +228,7 @@ export default {
             font-family: "SuecaSlab";
             font-weight: 800;
             font-size: 18px;
+            text-align: right;
             color: #fafafa;
             background: var(--primaryDark);
           }
