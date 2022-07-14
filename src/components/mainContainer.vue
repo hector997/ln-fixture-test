@@ -70,7 +70,7 @@ export default {
       let equipoB = {};
       this.matchData.forEach((match) => {
         this.teamsData.forEach((element) => {
-          //aca se arman los objetos simplificados de cada equipo para enviar a las cards y a la tabla
+          //aca se  arman los objetos simplificados de cada equipo para enviar a las cards y a la tabla
           if (match.equipoA.includes(element.grupo)) {
             equipoA = {
               equipo: element.nombre,
